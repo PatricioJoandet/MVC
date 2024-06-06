@@ -15,6 +15,10 @@ namespace MVC.Models
         public DateTime FechaLimite { get; set;}
         public bool Completa { get; set;} = false;
 
+        [ForeignKey("Tablero")]
+        public int tableroId { get; set; }
+
+        public Tablero Tablero { get; set; }
 
     }
 }

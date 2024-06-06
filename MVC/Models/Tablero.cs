@@ -13,5 +13,10 @@ namespace MVC.Models
         public string Titulo { get; set;}
         public string Subtitulo { get; set; }
         public string Color { get; set;}
+
+        [ForeignKey("Usuario")]
+        public int userId { get; set; }
+
+        public Usuario Usuario { get; set; }
     }
 }
