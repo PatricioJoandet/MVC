@@ -54,8 +54,9 @@ namespace MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Subtitulo,Color")] Tablero tablero)
+        public async Task<IActionResult> Create([Bind("1,Titulo,Subtitulo,Color")] Tablero tablero)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(tablero);

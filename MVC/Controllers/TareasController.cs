@@ -54,7 +54,7 @@ namespace MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,FechaLimite,Completa")] Tarea tarea)
+        public async Task<IActionResult> Create([Bind("1,Nombre,FechaLimite,Completa")] Tarea tarea)
         {
             if (ModelState.IsValid)
             {

@@ -11,13 +11,13 @@ namespace MVC.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Nombre { get; set;}
-        public DateTime FechaLimite { get; set;}
-        public bool Completa { get; set;} = false;
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
+        public string Nombre { get; set; }
+        public DateTime FechaLimite { get; set; }
+        public bool Completa { get; set; } = false;
 
         [ForeignKey("Tablero")]
         public int tableroId { get; set; }
-
         public Tablero Tablero { get; set; }
 
     }

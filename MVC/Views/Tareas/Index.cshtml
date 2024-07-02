@@ -1,47 +1,39 @@
 ﻿@model IEnumerable<MVC.Models.Tarea>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tareas";
 }
 
-<h1>Index</h1>
+<h1>Tareas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Agregar tarea</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaLimite)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Completa)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaLimite)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row mt-4">
+    @if(Model.Any()){
+        @foreach (var tarea in Model)
+        {
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@tarea.Nombre</h5>
+                        <p class="card-text">Fecha limite: @tarea.FechaLimite.ToString("d")</p>
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@tarea.Id" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="col-md-12">
+            <p>Sin tareas pendientes.</p>
+        </div>
+    }
+
+</div>
