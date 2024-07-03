@@ -18,7 +18,7 @@ namespace MVC.Models
 
         [ForeignKey("Tablero")]
         public int tableroId { get; set; }
-        public Tablero Tablero { get; set; }
+        //public Tablero Tablero { get; set; }
 
     }
 }

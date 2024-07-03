@@ -21,15 +21,15 @@ namespace MVC.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Tablero>()
-                .HasOne(t => t.Usuario)
-                .WithMany()
-                .HasForeignKey(t => t.userId);
+            //modelBuilder.Entity<Tablero>()
+            //    .HasOne(t => t.Usuario)
+            //    .WithMany()
+            //    .HasForeignKey(t => t.userId);
 
-            modelBuilder.Entity<Tarea>()
-                .HasOne(t => t.Tablero)
-                .WithMany()
-                .HasForeignKey(t => t.tableroId);
+            //modelBuilder.Entity<Tarea>()
+            //    .HasOne(t => t.Tablero)
+            //    .WithMany()
+            //    .HasForeignKey(t => t.tableroId);
         }
 
     }

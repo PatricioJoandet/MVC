@@ -17,6 +17,6 @@ namespace MVC.Models
         [ForeignKey("Usuario")]
         public int userId { get; set; }
 
-        public Usuario Usuario { get; set; }
+        //public Usuario Usuario { get; set; }
     }
 }

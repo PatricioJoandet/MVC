@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<MVC.Models.Tablero>
 
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -11,17 +12,24 @@
 </p>
 
 @foreach (var item in Model) {
-    <div>
-        <div>
-            @Html.DisplayFor(modelItem => item.Titulo)
-        </div>
+    <div class="border border-black m-2 ">
+        <div class="d-flex">
 
-        <div>
-            @Html.DisplayFor(modelItem => item.Titulo)
-        </div>
+            <div>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </div>
 
-        <div>
-            @Html.DisplayFor(modelItem => item.Titulo)
+            <div>
+                @Html.DisplayFor(modelItem => item.Subtitulo)
+            </div>
+
+            <div>
+                @Html.DisplayFor(modelItem => item.Color)
+            </div>
         </div>
+        
+
+        <a asp-controller="Tareas" asp-action="Create" class="text-decoration-none fs-6"> + Nueva tarea </a>
+        
     </div>
 }
