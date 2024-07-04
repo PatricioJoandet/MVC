@@ -19,6 +19,19 @@ namespace MVC.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        public IActionResult CambiarEstado(int id)
+        {
+            var tarea = _context.Tareas.FirstOrDefault(t => t.Id == id);
+            if(tarea != null)
+            {
+                tarea.Completa = !tarea.Completa;
+                _context.SaveChanges();
+                return Ok(new { message = "Tarea actualizada" });
+            }
+            return NotFound();
+        }
+
         // GET: Tareas
         public async Task<IActionResult> Index()
         {
@@ -44,8 +57,9 @@ namespace MVC.Controllers
         }
 
         // GET: Tareas/Create
-        public IActionResult Create()
+        public IActionResult Create(int tableroId)
         {
+            ViewBag.TableroId = tableroId;
             return View();
         }
 
@@ -54,16 +68,15 @@ namespace MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,FechaLimite,Completa")] Tarea tarea)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,FechaLimite,Completa")] Tarea tarea, int tableroId)
         {
             if (ModelState.IsValid)
             {
-                var id = 2;
-                tarea.tableroId = id;
+                tarea.tableroId = tableroId;
 
                 _context.Add(tarea);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Tableros");
             }
             return View(tarea);
         }

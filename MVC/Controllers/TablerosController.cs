@@ -22,11 +22,14 @@ namespace MVC.Controllers
         // GET: Tableros
         public async Task<IActionResult> Index()
         {
-            var tareas = await _context.Tareas
-            .Where(t => t.tableroId == 2) // Eager loading for related tasks
-            .ToListAsync();
 
-            return View(await _context.Tableros.ToListAsync());
+            var tableros = await _context.Tableros.ToListAsync();
+            var tareas = await _context.Tareas.ToListAsync();
+
+            ViewBag.Tableros = tableros;
+            ViewBag.Tareas = tareas;
+
+            return View();
         }
 
         // GET: Tableros/Details/5
@@ -63,7 +66,7 @@ namespace MVC.Controllers
             
             if (ModelState.IsValid)
             {
-                var userId = 1;
+                var userId = 3;
                 tablero.userId = userId;
 
                 _context.Add(tablero);
@@ -82,6 +85,7 @@ namespace MVC.Controllers
             }
 
             var tablero = await _context.Tableros.FindAsync(id);
+            
             if (tablero == null)
             {
                 return NotFound();
@@ -105,6 +109,8 @@ namespace MVC.Controllers
             {
                 try
                 {
+                    var userId = 3;
+                    tablero.userId = userId;
                     _context.Update(tablero);
                     await _context.SaveChangesAsync();
                 }

@@ -2,6 +2,8 @@
 
 
 @{
+    var tableros = ViewBag.Tableros as List<MVC.Models.Tablero>;
+    var tareas = ViewBag.Tareas as List<MVC.Models.Tarea>;
     ViewData["Title"] = "Index";
 }
 
@@ -11,25 +13,170 @@
     <a asp-action="Create" class="text-decoration-none fs-1"> + </a>
 </p>
 
-@foreach (var item in Model) {
-    <div class="border border-black m-2 ">
-        <div class="d-flex">
+<div class="tablero-container">
+    @foreach (var tablero in tableros)
+    {
+        <div class="tablero" style="background-color:@tablero.Color;">
+            <div class="tablero-content">
+                <div class="dropdown">
+                    <button class="dropdown-button">...</button>
+                    <div class="dropdown-content">                                
+                        <a class="dropdown-item" asp-controller="Tableros" asp-route-id="@tablero.Id" asp-action="Edit">Editar</a>
+                        <a class="dropdown-item" asp-controller="Tableros" asp-route-id="@tablero.Id" asp-action="Delete">Eliminar</a>
+                    </div>
+                </div>
 
-            <div>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </div>
-
-            <div>
-                @Html.DisplayFor(modelItem => item.Subtitulo)
-            </div>
-
-            <div>
-                @Html.DisplayFor(modelItem => item.Color)
+                <h3>@tablero.Titulo</h3>
+                <p>@tablero.Subtitulo</p>
+                <ul class="tarea-list ">
+                    @foreach (var t in tareas.Where(t => t.tableroId == tablero.Id).OrderBy(t => t.Completa))
+                    {
+                        <div>
+                        <li class="d-flex shadow justify-content-between list-group-item list-group-item-action @(t.Completa ? "completa" : "incompleta")">
+                                <div>
+                                    <input type="checkbox" data-tarea-id="@t.Id" @(t.Completa ? "checked" : "") />
+                                    <span id="tarea-@t.Id" data-completa="@t.Completa.ToString().ToLower()" style="text-decoration: @(t.Completa ? "line-through" : "none")">@t.Nombre</span>
+                                </div>
+                                <div>
+                                    <a asp-controller="Tareas" asp-action="Delete" asp-route-id="@t.Id" class="text-decoration-none fs-6">X</a>
+                                </div>
+                            </li>
+                        </div>
+                    }
+                </ul>
+                <a asp-controller="Tareas" asp-action="Create" asp-route-tableroId="@tablero.Id" class="text-decoration-none fs-6"> + Nueva tarea </a>
             </div>
         </div>
-        
+    }
+</div>
 
-        <a asp-controller="Tareas" asp-action="Create" class="text-decoration-none fs-6"> + Nueva tarea </a>
-        
-    </div>
-}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.tarea-list input[type="checkbox"]');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', async function () {
+                const tareaId = this.dataset.tareaId;
+
+                try {
+                    const response = await fetch(`/Tareas/CambiarEstado/${tareaId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error al cambiar el estado de la tarea.');
+                    }
+
+                    const spanElement = document.getElementById(`tarea-${tareaId}`);
+                    if (spanElement) {
+                        const isCompleta = this.checked;
+                        spanElement.setAttribute('data-completa', String(isCompleta));
+                        spanElement.style.textDecoration = isCompleta ? "line-through" : "none";
+
+                        const listItem = spanElement.closest('li');
+                        if (listItem) {
+                            listItem.classList.toggle('completa', isCompleta);
+                            listItem.classList.toggle('incompleta', !isCompleta);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .tablero-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        height: 700px;
+        padding: 20px;
+    }
+
+    .tablero {
+        flex: 0 0 auto;
+        width: 300px;
+        margin-right: 10px;
+        min-height: 400px; 
+        max-height: 500px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    }
+
+        .tablero:last-child {
+            margin-right: 0;
+        }
+
+    .tablero-content {
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .tablero:hover {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        transform: translateY(-2px);
+    }
+
+    .tarea-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .tarea-list li {
+            margin: 2px;
+        }
+
+    .dropdown {
+        position: absolute;
+        top: 10px; /* Ajusta según sea necesario */
+        right: 10px; /* Ajusta según sea necesario */
+    }
+
+    .dropdown-button {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0; /* Alinea el dropdown con el botón */
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .completa {
+        background-color: #C1C1C1; /* Color de fondo gris */
+    }
+    .incompleta {
+        background-color: white; /* Color de fondo blanco */
+    }
+</style>
