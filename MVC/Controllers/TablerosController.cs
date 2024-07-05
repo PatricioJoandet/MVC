@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC.Context;
 using MVC.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace MVC.Controllers
 {
@@ -23,8 +25,10 @@ namespace MVC.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var tableros = await _context.Tableros.ToListAsync();
-            var tareas = await _context.Tareas.ToListAsync();
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            var tableros = await _context.Tableros.Where(t => t.userId == userId).ToListAsync();
+            var tareas = await _context.Tareas.Where(t=>tableros.Select(tb => tb.Id).Contains(t.tableroId)).ToListAsync();
 
             ViewBag.Tableros = tableros;
             ViewBag.Tareas = tareas;
@@ -66,8 +70,8 @@ namespace MVC.Controllers
             
             if (ModelState.IsValid)
             {
-                var userId = 3;
-                tablero.userId = userId;
+                var userId = HttpContext.Session.GetInt32("UserId");
+                tablero.userId = userId.Value;
 
                 _context.Add(tablero);
                 await _context.SaveChangesAsync();
@@ -109,8 +113,8 @@ namespace MVC.Controllers
             {
                 try
                 {
-                    var userId = 3;
-                    tablero.userId = userId;
+                    var userId = HttpContext.Session.GetInt32("UserId");
+                    tablero.userId = userId.Value;
                     _context.Update(tablero);
                     await _context.SaveChangesAsync();
                 }

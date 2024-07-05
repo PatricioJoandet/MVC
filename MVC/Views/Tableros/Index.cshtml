@@ -7,20 +7,22 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Mis Tableros</h1>
 
-<p>
-    <a asp-action="Create" class="text-decoration-none fs-1"> + </a>
-</p>
+<div class="d-flex gap-3">
+    <h1>Mis Tableros</h1>
+    <span><a asp-action="Create" class="text-decoration-none fs-1"> + </a></span>
+
+</div>
+
 
 <div class="tablero-container">
     @foreach (var tablero in tableros)
     {
         <div class="tablero" style="background-color:@tablero.Color;">
             <div class="tablero-content">
-                <div class="dropdown">
-                    <button class="dropdown-button">...</button>
-                    <div class="dropdown-content">                                
+                <div class="dropdownMenu">
+                    <button class="dropdownButton">...</button>
+                    <div class="dropdownContent">
                         <a class="dropdown-item" asp-controller="Tableros" asp-route-id="@tablero.Id" asp-action="Edit">Editar</a>
                         <a class="dropdown-item" asp-controller="Tableros" asp-route-id="@tablero.Id" asp-action="Delete">Eliminar</a>
                     </div>
@@ -109,6 +111,7 @@
         border: 1px solid #ddd;
         padding: 10px;
         transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+        border-radius: 15px;
     }
 
         .tablero:last-child {
@@ -135,20 +138,20 @@
             margin: 2px;
         }
 
-    .dropdown {
+    .dropdownMenu {
         position: absolute;
         top: 10px; /* Ajusta según sea necesario */
         right: 10px; /* Ajusta según sea necesario */
     }
 
-    .dropdown-button {
+    .dropdownButton {
         background: none;
         border: none;
         font-size: 20px;
         cursor: pointer;
     }
 
-    .dropdown-content {
+    .dropdownContent {
         display: none;
         position: absolute;
         right: 0; /* Alinea el dropdown con el botón */
@@ -158,18 +161,18 @@
         z-index: 1;
     }
 
-        .dropdown-content a {
+        .dropdownContent a {
             color: black;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
 
-            .dropdown-content a:hover {
+            .dropdownContent a:hover {
                 background-color: #f1f1f1;
             }
 
-    .dropdown:hover .dropdown-content {
+    .dropdownMenu:hover .dropdownContent {
         display: block;
     }
 

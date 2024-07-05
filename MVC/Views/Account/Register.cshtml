@@ -1,0 +1,37 @@
+﻿@model MVC.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Register" class="needs-validation" novalidate>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmarPassword" class="control-label"></label>
+        <input asp-for="ConfirmarPassword" class="form-control" />
+        <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
