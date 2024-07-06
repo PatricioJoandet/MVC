@@ -4,31 +4,42 @@
     ViewData["Title"] = "Registrarse";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<form asp-action="Register" class="needs-validation" novalidate>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">@ViewData["Title"]</h2>
+                    <form asp-action="Register" class="needs-validation" novalidate>
+                        <div class="form-group mt-1">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label asp-for="Nombre" class="control-label"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label asp-for="ConfirmarPassword" class="control-label"></label>
+                            <input asp-for="ConfirmarPassword" type="password" class="form-control" />
+                            <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+                        </div>
+                        <div class="justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Nombre" class="control-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
-        <input asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmarPassword" class="control-label"></label>
-        <input asp-for="ConfirmarPassword" class="form-control" />
-        <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Registrarse</button>
-</form>
+</div>
 
 @section Scripts {
     @{
