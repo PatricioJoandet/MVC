@@ -33,6 +33,7 @@
                 <ul class="tarea-list ">
                     @foreach (var t in tareas.Where(t => t.tableroId == tablero.Id).OrderBy(t => t.Completa))
                     {
+                        var diasRestantes = (t.FechaLimite - DateTime.Now).Days;
                         <div>
                         <li class="d-flex shadow justify-content-between list-group-item list-group-item-action @(t.Completa ? "completa" : "incompleta")">
                                 <div>
@@ -40,6 +41,11 @@
                                     <span id="tarea-@t.Id" data-completa="@t.Completa.ToString().ToLower()" style="text-decoration: @(t.Completa ? "line-through" : "none")">@t.Nombre</span>
                                 </div>
                                 <div>
+                                    @if(!t.Completa){
+                                        <span class="dias")>
+                                            (@(diasRestantes >= 0 ? $"{diasRestantes} días restantes" : $"{Math.Abs(diasRestantes)} días atrasada"))
+                                        </span>
+                                    }
                                     <a asp-controller="Tareas" asp-action="Delete" asp-route-id="@t.Id" class="text-decoration-none fs-6">X</a>
                                 </div>
                             </li>
@@ -178,9 +184,21 @@
     }
 
     .completa {
-        background-color: #C1C1C1; /* Color de fondo gris */
+        background-color: #C1C1C1;
     }
     .incompleta {
-        background-color: white; /* Color de fondo blanco */
+        background-color: white;
+    }
+
+    .dias{
+        font-size: 0.6em;
+    }
+
+    .restantes {
+        color: gray;
+    }
+
+    .atrasada {
+        color: red;
     }
 </style>

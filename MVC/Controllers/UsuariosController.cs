@@ -111,7 +111,7 @@ namespace MVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Tableros");
             }
             return View(usuario);
         }
@@ -142,13 +142,23 @@ namespace MVC.Controllers
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario != null)
             {
+                await EliminarTablerosPorUser(id);
                 _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
+        private async Task EliminarTablerosPorUser(int id)
+        {
+            var tableros = await _context.Tableros.Where(t => t.Id == id).ToListAsync();
+            if (tableros.Count > 0)
+            {
+                _context.Tableros.RemoveRange(tableros);
+                await _context.SaveChangesAsync();
+            }
+        }
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.Id == id);

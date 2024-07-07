@@ -168,13 +168,24 @@ namespace MVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tablero = await _context.Tableros.FindAsync(id);
+
             if (tablero != null)
             {
+                await EliminarTareasPorTablero(id);
                 _context.Tableros.Remove(tablero);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        private async Task EliminarTareasPorTablero(int tableroId)
+        {
+            var tareas = await _context.Tareas.Where(t => t.tableroId == tableroId).ToListAsync();
+            if (tareas.Count > 0)
+            {
+                _context.Tareas.RemoveRange(tareas);
+                await _context.SaveChangesAsync();
+            }
         }
 
         private bool TableroExists(int id)
