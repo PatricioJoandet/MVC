@@ -1,15 +1,29 @@
 ﻿@model MVC.Models.LoginViewModel
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="contenedor">
+    <div class="contenedorLogin">
+        <form class="loginForm" asp-action="Login" method="post">
+            <p class="title">Iniciar sesión</p>
+            <div class="contenedorInput">
+                <input class="formInput" asp-for="Email" placeholder="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="contenedorInput">
+                <input class="formInput" asp-for="Password" type="password" placeholder="Contraseña" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="contenedorBoton">
+                <button class="btn btn-success" type="submit">Login</button>
+            </div>
+            <div class="d-flex mt-5">
+                <span>¿No tenés cuenta? </span>
+                <a class="link-warning" asp-controller="Account" asp-action="Register">Crear cuenta</a>
+            </div>
+    
+        </form>
     </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password"/>
-        <span asp-validation-for="Password"></span>
-    </div>
-    <button type="submit">Login</button>
-</form>
+</div>

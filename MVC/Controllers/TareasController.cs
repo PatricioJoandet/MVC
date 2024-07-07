@@ -162,7 +162,7 @@ namespace MVC.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Tableros");
         }
 
         private bool TareaExists(int id)

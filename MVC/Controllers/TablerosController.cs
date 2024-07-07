@@ -28,7 +28,17 @@ namespace MVC.Controllers
             var userId = HttpContext.Session.GetInt32("UserId");
 
             var tableros = await _context.Tableros.Where(t => t.userId == userId).ToListAsync();
-            var tareas = await _context.Tareas.Where(t=>tableros.Select(tb => tb.Id).Contains(t.tableroId)).ToListAsync();
+            var tableroIds = tableros.Select(tb => tb.Id).ToArray();
+
+            // Si no hay tableros, devuelve una lista vacía de tareas
+            List<Tarea> tareas = new List<Tarea>();
+            if (tableroIds.Any())
+            {
+                // Construir una consulta básica usando SQL sin Entity Framework
+                var ids = string.Join(",", tableroIds);
+                var query = $"SELECT * FROM Tareas WHERE tableroId IN ({ids})";
+                tareas = await _context.Tareas.FromSqlRaw(query).ToListAsync();
+            }
 
             ViewBag.Tableros = tableros;
             ViewBag.Tareas = tareas;

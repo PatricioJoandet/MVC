@@ -2,9 +2,11 @@
     ViewData["Title"] = "ToDo";
 }
 
-<div class="row mt-4">
+<div class="d-flex flex-column align-items-center justify-content-center text-center">
+    <h1> To Do APP</h1>
+    <h3>Crea tableros y tareas</h3>
     <div>
-        <a asp-controller="Account" asp-action="Login"> Iniciar sesión </a>
-        <a asp-controller="Account" asp-action="Register"> Registrarse </a>
+        <a class="btn btn-success" asp-controller="Account" asp-action="Login"> Iniciar sesión </a>
+        <a class="btn btn-outline-warning" asp-controller="Account" asp-action="Register"> Registrarse </a>
     </div>
 </div>

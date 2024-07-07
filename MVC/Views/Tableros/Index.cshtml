@@ -21,7 +21,7 @@
         <div class="tablero" style="background-color:@tablero.Color;">
             <div class="tablero-content">
                 <div class="dropdownMenu">
-                    <button class="dropdownButton">...</button>
+                    <button class="dropdownButton fs-2">...</button>
                     <div class="dropdownContent">
                         <a class="dropdown-item" asp-controller="Tableros" asp-route-id="@tablero.Id" asp-action="Edit">Editar</a>
                         <a class="dropdown-item" asp-controller="Tableros" asp-route-id="@tablero.Id" asp-action="Delete">Eliminar</a>
@@ -139,9 +139,10 @@
         }
 
     .dropdownMenu {
+        font-weight:300;
         position: absolute;
-        top: 10px; /* Ajusta según sea necesario */
-        right: 10px; /* Ajusta según sea necesario */
+        top: -20px;
+        right: 1px;
     }
 
     .dropdownButton {
@@ -154,7 +155,7 @@
     .dropdownContent {
         display: none;
         position: absolute;
-        right: 0; /* Alinea el dropdown con el botón */
+        right: 0;
         background-color: #f9f9f9;
         min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);

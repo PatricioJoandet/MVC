@@ -4,34 +4,42 @@
     ViewData["Title"] = "Registrarse";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="contenedor">
+    <div class="contenedorLogin">
+        <form asp-action="Register" class="loginForm" novalidate>
+            <p class="title">Registrarse</p>
 
-<form asp-action="Register" class="needs-validation" novalidate>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="contenedorInput">
+                <input asp-for="Email" class="formInput" placeholder="Email"/>
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="contenedorInput">
+                <input asp-for="Nombre" class="formInput" placeholder="Nombre"/>
+                <span asp-validation-for="Nombre"></span>
+            </div>
+            <div class="contenedorInput">
+                <input asp-for="Password" class="formInput" placeholder="Contraseña"/>
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="contenedorInput">
+                <input asp-for="ConfirmarPassword" class="formInput" placeholder="Confirmar contraseña"/>
+                <span asp-validation-for="ConfirmarPassword"></span>
+            </div>
+            <div class="contenedorBoton">
+                <button type="submit" class="btn btn-warning">Registrarse</button>
+            </div>
+            <div class="d-flex mt-5">
+                <span>¿Ya tenés cuenta? </span>
+                <a class="link-success" asp-controller="Account" asp-action="Login">Iniciar sesión</a>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Nombre" class="control-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
-        <input asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmarPassword" class="control-label"></label>
-        <input asp-for="ConfirmarPassword" class="form-control" />
-        <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Registrarse</button>
-</form>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+
