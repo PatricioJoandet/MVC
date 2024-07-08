@@ -30,14 +30,12 @@ namespace MVC.Controllers
 
             var userId = HttpContext.Session.GetInt32("UserId");
 
-            var tableros = await _context.Tableros.Where(t => t.userId == userId).ToListAsync();
+            var tableros = await _context.Tableros.Where(t => t.userId == userId).OrderBy(t => t.Orden).ToListAsync();
             var tableroIds = tableros.Select(tb => tb.Id).ToArray();
 
-            // Si no hay tableros, devuelve una lista vacía de tareas
             List<Tarea> tareas = new List<Tarea>();
             if (tableroIds.Any())
             {
-                // Construir una consulta básica usando SQL sin Entity Framework
                 var ids = string.Join(",", tableroIds);
                 var query = $"SELECT * FROM Tareas WHERE tableroId IN ({ids})";
                 tareas = await _context.Tareas.FromSqlRaw(query).ToListAsync();
@@ -84,7 +82,9 @@ namespace MVC.Controllers
             if (ModelState.IsValid)
             {
                 var userId = HttpContext.Session.GetInt32("UserId");
+                var maxOrden = _context.Tableros.Where(t => t.userId == userId.Value).Max(t => (int?)t.Orden) ?? 0;
                 tablero.userId = userId.Value;
+                tablero.Orden = maxOrden + 1;
 
                 _context.Add(tablero);
                 await _context.SaveChangesAsync();
@@ -190,6 +190,21 @@ namespace MVC.Controllers
                 _context.Tableros.RemoveRange(tableros);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReordenarTableros([FromBody] int[] ids)
+        {
+            for (int i = 0; i < ids.Length; i++)
+            {
+                var tablero = await _context.Tableros.FirstOrDefaultAsync(t => t.Id == ids[i]);
+                if (tablero != null)
+                {
+                    tablero.Orden = i;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         private bool TableroExists(int id)

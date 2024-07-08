@@ -15,10 +15,10 @@
 </div>
 
 
-<div class="tablero-container">
-    @foreach (var tablero in tableros)
+<div class="tablero-container" id="tableroContainer">
+    @foreach (var tablero in tableros.OrderBy(t => t.Orden))
     {
-        <div class="tablero" style="background-color:@tablero.Color;">
+        <div class="tablero" style="background-color:@tablero.Color;" data-id="@tablero.Id">
             <div class="tablero-content">
                 <div class="dropdownMenu">
                     <button class="dropdownButton fs-2">...</button>
@@ -97,7 +97,27 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const tableroContainer = document.getElementById('tableroContainer');
+
+        new Sortable(tableroContainer, {
+            animation: 150,
+            onEnd: async function () {
+                const ids = Array.from(tableroContainer.children).map(t => t.getAttribute('data-id'));
+                await fetch('/Tableros/ReordenarTableros', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ids)
+                });
+            }
+        });
+    });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 
 <style>
     .tablero-container {
