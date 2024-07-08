@@ -16,21 +16,5 @@ namespace MVC.Context
             public DbSet<Usuario> Usuarios { get; set; }
             public DbSet<Tablero> Tableros { get; set; }
             public DbSet<Tarea> Tareas { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<Tablero>()
-            //    .HasOne(t => t.Usuario)
-            //    .WithMany()
-            //    .HasForeignKey(t => t.userId);
-
-            //modelBuilder.Entity<Tarea>()
-            //    .HasOne(t => t.Tablero)
-            //    .WithMany()
-            //    .HasForeignKey(t => t.tableroId);
-        }
-
     }
 }

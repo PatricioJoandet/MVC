@@ -16,7 +16,7 @@ namespace MVC
                 options.UseSqlServer(builder.Configuration["ConnectionStrings:WebDBConnection"])
                 );
 
-            // Add services to the container.
+
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<TablerosController>();

@@ -9,11 +9,11 @@
         <h1 class="text-center">Nueva tarea</h1>
         <form class="loginForm" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="contendorInput">
+            <div class="contenedorInput">
                 <input asp-for="Nombre" class="formInput" placeholder="Tarea"/>
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="contendorInput">
+            <div class="contenedorInput">
                 <input asp-for="FechaLimite" type="date" class="formInput" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="FechaLimite" class="text-danger"></span>
             </div>
