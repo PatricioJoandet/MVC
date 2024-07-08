@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC.Context;
 using MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly WebDatabaseContext _context;
+        private readonly TablerosController _tablerosController;
 
-        public UsuariosController(WebDatabaseContext context)
+        public UsuariosController(WebDatabaseContext context, TablerosController tablerosController)
         {
             _context = context;
+            _tablerosController = tablerosController;
         }
 
         // GET: Usuarios
@@ -142,22 +148,15 @@ namespace MVC.Controllers
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario != null)
             {
-                await EliminarTablerosPorUser(id);
+                await _tablerosController.EliminarTablerosPorUser(id);
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                HttpContext.Session.Remove("UserId");
+
                 _context.Usuarios.Remove(usuario);
                 await _context.SaveChangesAsync();
             }
 
             return RedirectToAction("Index", "Home");
-        }
-
-        private async Task EliminarTablerosPorUser(int id)
-        {
-            var tableros = await _context.Tableros.Where(t => t.Id == id).ToListAsync();
-            if (tableros.Count > 0)
-            {
-                _context.Tableros.RemoveRange(tableros);
-                await _context.SaveChangesAsync();
-            }
         }
         private bool UsuarioExists(int id)
         {

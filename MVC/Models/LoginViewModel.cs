@@ -4,10 +4,10 @@ namespace MVC.Models
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El email es obligatorio.")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

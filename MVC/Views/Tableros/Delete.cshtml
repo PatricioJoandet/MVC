@@ -1,38 +1,28 @@
 ﻿@model MVC.Models.Tablero
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar tablero";
 }
 
-<h1 class="text-center">Eliminar Tablero</h1>
-<div class="d-flex justify-content-center mt-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h4 class="card-title text-center">¿Estás seguro que deseas eliminar este tablero?</h4>
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Titulo)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Titulo)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Subtitulo)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Subtitulo)
-                    </dd>
-                </dl>
+<div class="contenedor">
+    <div class="contenedorLogin">
+    
+        <div class="text-center">
+            <h2>Eliminar Tablero</h2>
+            <span><b>¡Todas las tareas relacionadas se eliminaran!</b></span>
 
-                <form asp-action="Delete" class="text-center">
-                    <input type="hidden" asp-for="Id" />
-                    <input type="submit" value="Eliminar" class="btn btn-danger" />
-                    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
-                </form>
-            </div>
         </div>
+        <div class="text-center d-flex flex-column mt-3">
+            <span><b>Tablero: </b> @(Model.Titulo)</span>
+            <span><b>Descripcion: </b> @(Model.Subtitulo) </span>
+        </div>
+        <form asp-action="Delete" class="loginForm">
+            <input type="hidden" asp-for="Id" />
+            <div class="contenedorBoton gap-4">
+                <input type="submit" value="Eliminar tablero" class="btn btn-danger" />
+                <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+            </div>
+        </form>
     </div>
 </div>
 

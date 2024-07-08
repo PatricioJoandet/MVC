@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MVC.Models;
 
 namespace MVC.Controllers
 {
+    [Authorize]
     public class TareasController : Controller
     {
         private readonly WebDatabaseContext _context;
@@ -82,7 +84,7 @@ namespace MVC.Controllers
         }
 
         // GET: Tareas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? tableroId)
         {
             if (id == null)
             {
@@ -94,6 +96,8 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.TableroId = tableroId;
             return View(tarea);
         }
 
@@ -102,7 +106,7 @@ namespace MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,FechaLimite,Completa")] Tarea tarea)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,FechaLimite,Completa")] Tarea tarea, int tableroId)
         {
             if (id != tarea.Id)
             {
@@ -113,6 +117,7 @@ namespace MVC.Controllers
             {
                 try
                 {
+                    tarea.tableroId = tableroId;
                     _context.Update(tarea);
                     await _context.SaveChangesAsync();
                 }
@@ -127,7 +132,7 @@ namespace MVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Tableros");
             }
             return View(tarea);
         }
@@ -163,6 +168,16 @@ namespace MVC.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Tableros");
+        }
+
+        public async Task EliminarTareasPorTablero(int tableroId)
+        {
+            var tareas = await _context.Tareas.Where(t => t.tableroId == tableroId).ToListAsync();
+            if (tareas.Count > 0)
+            {
+                _context.Tareas.RemoveRange(tareas);
+                await _context.SaveChangesAsync();
+            }
         }
 
         private bool TareaExists(int id)

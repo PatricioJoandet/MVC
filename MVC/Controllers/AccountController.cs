@@ -45,7 +45,7 @@ namespace MVC.Controllers
                     return RedirectToAction("Index", "Tableros");
                 }
 
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, "Usuario inexistente o contraseña incorrecta.");
             }
 
             return View(model);
@@ -61,7 +61,7 @@ namespace MVC.Controllers
                 var userExists = await _context.Usuarios.AnyAsync(u => u.Email == model.Email);
                 if (userExists)
                 {
-                    ModelState.AddModelError(string.Empty, "Email already registered.");
+                    ModelState.AddModelError(string.Empty, "Email ya registrado.");
                     return View(model);
                 }
 
@@ -84,6 +84,9 @@ namespace MVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            HttpContext.Session.Remove("UserId");
+
             return RedirectToAction("Index", "Home");
         }
     }

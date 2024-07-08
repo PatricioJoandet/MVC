@@ -46,6 +46,7 @@
                                             (@(diasRestantes >= 0 ? $"{diasRestantes} días restantes" : $"{Math.Abs(diasRestantes)} días atrasada"))
                                         </span>
                                     }
+                                    <a asp-controller="Tareas" asp-action="Edit" asp-route-id="@t.Id" asp-route-tableroId="@tablero.Id" class="text-decoration-none fs-6">⚙</a>
                                     <a asp-controller="Tareas" asp-action="Delete" asp-route-id="@t.Id" class="text-decoration-none fs-6">X</a>
                                 </div>
                             </li>

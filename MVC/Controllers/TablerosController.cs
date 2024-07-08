@@ -12,13 +12,16 @@ using System.Security.Claims;
 
 namespace MVC.Controllers
 {
+    [Authorize]
     public class TablerosController : Controller
     {
         private readonly WebDatabaseContext _context;
+        private readonly TareasController _tareasController;
 
-        public TablerosController(WebDatabaseContext context)
+        public TablerosController(WebDatabaseContext context, TareasController tareasController)
         {
             _context = context;
+            _tareasController = tareasController;
         }
 
         // GET: Tableros
@@ -171,19 +174,20 @@ namespace MVC.Controllers
 
             if (tablero != null)
             {
-                await EliminarTareasPorTablero(id);
+                await _tareasController.EliminarTareasPorTablero(id);
                 _context.Tableros.Remove(tablero);
                 await _context.SaveChangesAsync();
             }
 
             return RedirectToAction(nameof(Index));
         }
-        private async Task EliminarTareasPorTablero(int tableroId)
+
+        public async Task EliminarTablerosPorUser(int id)
         {
-            var tareas = await _context.Tareas.Where(t => t.tableroId == tableroId).ToListAsync();
-            if (tareas.Count > 0)
+            var tableros = await _context.Tableros.Where(t => t.Id == id).ToListAsync();
+            if (tableros.Count > 0)
             {
-                _context.Tareas.RemoveRange(tareas);
+                _context.Tableros.RemoveRange(tableros);
                 await _context.SaveChangesAsync();
             }
         }

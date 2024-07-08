@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using MVC.Context;
+using MVC.Controllers;
 
 namespace MVC
 {
@@ -17,6 +18,10 @@ namespace MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<TablerosController>();
+            builder.Services.AddScoped<TareasController>();
+            builder.Services.AddScoped<UsuariosController>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

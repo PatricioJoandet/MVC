@@ -1,42 +1,32 @@
 ﻿@model MVC.Models.Tarea
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar tarea";
 }
 
-<h1>Edit</h1>
-
-<h4>Tarea</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="contenedor">
+    <div class="contenedorLogin">
+        <h1 class="text-center">Editar tarea</h1>
+        <form asp-action="Edit" class="loginForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+            <input type="hidden" name="tableroId" value="@ViewBag.TableroId" />
+
+            <div class="contenedorInput">
+                <input asp-for="Nombre" class="formInput" placeholder="Tarea" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaLimite" class="control-label"></label>
-                <input asp-for="FechaLimite" class="form-control" />
+
+            <div class="contenedorInput">
+                <input type="date" asp-for="FechaLimite" class="formInput" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="FechaLimite" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Completa" /> @Html.DisplayNameFor(model => model.Completa)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="d-flex justify-content-center mt-4 gap-4">
+                <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                <a class="btn btn-danger" asp-controller="Tableros" asp-action="Index">Cancelar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

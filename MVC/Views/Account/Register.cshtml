@@ -9,21 +9,24 @@
         <form asp-action="Register" class="loginForm" novalidate>
             <p class="title">Registrarse</p>
 
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                </div>
+            }
+
             <div class="contenedorInput">
                 <input asp-for="Email" class="formInput" placeholder="Email"/>
-                <span asp-validation-for="Email"></span>
             </div>
             <div class="contenedorInput">
                 <input asp-for="Nombre" class="formInput" placeholder="Nombre"/>
-                <span asp-validation-for="Nombre"></span>
             </div>
             <div class="contenedorInput">
                 <input asp-for="Password" class="formInput" placeholder="Contraseña"/>
-                <span asp-validation-for="Password"></span>
             </div>
             <div class="contenedorInput">
                 <input asp-for="ConfirmarPassword" class="formInput" placeholder="Confirmar contraseña"/>
-                <span asp-validation-for="ConfirmarPassword"></span>
             </div>
             <div class="contenedorBoton">
                 <button type="submit" class="btn btn-warning">Registrarse</button>

@@ -12,13 +12,18 @@
     <div class="contenedorLogin">
         <form class="loginForm" asp-action="Login" method="post">
             <p class="title">Iniciar sesión</p>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger"})
+                </div>
+            }
+
             <div class="contenedorInput">
                 <input class="formInput" asp-for="Email" placeholder="Email" />
-                <span asp-validation-for="Email"></span>
             </div>
             <div class="contenedorInput">
                 <input class="formInput" asp-for="Password" type="password" placeholder="Contraseña" />
-                <span asp-validation-for="Password"></span>
             </div>
             <div class="contenedorBoton">
                 <button class="btn btn-success" type="submit">Login</button>

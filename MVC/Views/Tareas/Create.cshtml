@@ -1,34 +1,28 @@
 ﻿@model MVC.Models.Tarea
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear tarea";
     int tableroId = ViewBag.TableroId;
 }
-<h4 class="text-center">Nueva tarea</h4>
-<div class="d-flex justify-content-center mt-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="contenedorLogin">
-                <form class="loginForm" asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Nombre" class="control-label"></label>
-                        <input asp-for="Nombre" class="form-control" />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="FechaLimite" class="control-label">Fecha limite</label>
-                        <input asp-for="FechaLimite" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                        <span asp-validation-for="FechaLimite" class="text-danger"></span>
-                    </div>
-                    <input type="hidden" name="tableroId" value="@tableroId" />
-                    <div class="form-group text-center">
-                        <input type="submit" value="Create" class="btn btn-primary mt-2" />
-                        <a class="btn btn-secondary mt-2" asp-controller="Tableros" asp-action="Index">Volver</a>
-                    </div>
-                </form>
+<div class="d-flex justify-content-center">
+    <div class="contenedorLogin">
+        <h1 class="text-center">Nueva tarea</h1>
+        <form class="loginForm" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="contendorInput">
+                <input asp-for="Nombre" class="formInput" placeholder="Tarea"/>
+                <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-        </div>
+            <div class="contendorInput">
+                <input asp-for="FechaLimite" type="date" class="formInput" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaLimite" class="text-danger"></span>
+            </div>
+            <input type="hidden" name="tableroId" value="@tableroId" />
+            <div class="d-flex justify-content-center mt-4 gap-4">
+                <input type="submit" value="Crear tarea" class="btn btn-success" />
+                <a class="btn btn-danger" asp-controller="Tableros" asp-action="Index">Volver</a>
+            </div>
+        </form>
     </div>
 </div>
 

@@ -1,45 +1,25 @@
 ﻿@model MVC.Models.Tarea
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar tarea";
 }
 
-<h1 class="text-center">Eliminar Tarea</h1>
-<div class="d-flex justify-content-center mt-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h4 class="card-title text-center">¿Estás seguro que deseas eliminar esta tarea?</h4>
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Nombre)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.FechaLimite)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.FechaLimite)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Completa)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Completa)
-                    </dd>
-                </dl>
-
-                <form asp-action="Delete" class="text-center">
-                    <input type="hidden" asp-for="Id" />
-                    <input type="submit" value="Eliminar" class="btn btn-danger" />
-                    <a class="btn btn-secondary" asp-action="Index">Volver a la lista</a>
-                </form>
+<div class="contenedor justify-content-center flex-column">
+   <div class="contenedorLogin">
+        <h2 class="text-center">Eliminar Tarea</h2>
+       <div class="text-center d-flex flex-column">
+           <span><b>Tarea: </b>@(Model.Nombre)</span>
+           <span><b>Fecha limite: </b>@(Model.FechaLimite.ToString("dd/MM/yyyy"))</span>
+       </div>
+        <form class="loginForm" asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="contenedorBoton gap-4">
+                <input type="submit" value="Eliminar tarea" class="btn btn-danger" />
+                <a class="btn btn-secondary" asp-controller="Tableros" asp-action="Index">Cancelar</a>
             </div>
-        </div>
-    </div>
+        </form>
+   </div>
+
 </div>
 
 @section Scripts {
