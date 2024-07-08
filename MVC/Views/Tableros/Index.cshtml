@@ -31,7 +31,7 @@
                 <h3>@tablero.Titulo</h3>
                 <p>@tablero.Subtitulo</p>
                 <ul class="tarea-list ">
-                    @foreach (var t in tareas.Where(t => t.tableroId == tablero.Id).OrderBy(t => t.Completa))
+                    @foreach (var t in tareas.Where(t => t.tableroId == tablero.Id).OrderBy(t => t.Completa).ThenBy(t => t.FechaLimite))
                     {
                         var diasRestantes = (t.FechaLimite - DateTime.Now).Days;
                         <div>
